@@ -1,0 +1,22 @@
+{
+  "name": "vue-study",
+  "version": "1.0.0",
+  "description": "all for vue",
+  "main": "entry.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liukeyi300/VueJS.git"
+  },
+  "keywords": [
+    "vuejs"
+  ],
+  "author": "Liob.Liu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/liukeyi300/VueJS/issues"
+  },
+  "homepage": "https://github.com/liukeyi300/VueJS#readme"
+}
