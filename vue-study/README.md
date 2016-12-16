@@ -1,6 +1,6 @@
 # vue-study
 
-> A Vue.js project
+> study and test for vue
 
 ## Build Setup
 
@@ -16,9 +16,6 @@ npm run build
 
 # run unit tests
 npm run unit
-
-# run e2e tests
-npm run e2e
 
 # run all tests
 npm test

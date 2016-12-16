@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <title>vue-study</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <!--{{Message}}-->
+      <!--<p v-if="seen">Now you see me</p>
+      <p v-if="!seen">Now you see me false</p>-->
+      <!--<ol>
+        <li v-for="todo in todos">
+          {{todo.text}}
+        </li>
+      </ol>-->
+      <p>{{Message}}</p>
+      <button v-on:click="reverseMessage12">Reverse Message</button>
+    </div>
+
+    <div id="app2">
+      <ol>
+        <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+      </ol>
+    </div>
+    <!-- built files will be auto injected -->
+    <script>
+      var app = new Vue({
+          el: '#app',
+          data: {
+              Message: "Hello world",
+              seen: false,
+              todos: [
+                { text: '112' },
+                { text: '11234' },
+                { text: '哈哈哈' }
+              ]
+          },
+          methods: {
+              reverseMessage12: function() {
+                  this.Message = this.Message.split('').reverse().join('');
+              }
+          }
+      })
+
+      Vue.component('todo-item', {
+          props: ['todo'],
+          template: '<li>{{ todo.text }}</li>'
+      })
+
+
+      var app2 = new Vue({
+          el: '#app2',
+          data: {
+              groceryList: [
+                  { text: '啦啦啦啦啦' },
+                  { text: 'hahaha' }
+              ]
+          }
+      })
+    </script>
+  </body>
+</html>
