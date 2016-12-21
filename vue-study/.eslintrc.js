@@ -20,6 +20,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     // ignore semi-configuration
     'semi': 0,
+    // allow no used vars
     'no-unused-vars': 0
   }
 }
