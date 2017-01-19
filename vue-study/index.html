@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>vue-study</title>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="static/vue.min.js"></script>
   </head>
 
   <body>
@@ -37,6 +37,23 @@
             {{ (function() {return t1 + 20;})() }}
         </p>
         <button v-bind:disabled="test">Button</button>
+    </div>
+
+    <div id="app5">
+      {{ message | capitalize }}
+    </div>
+
+    <div id="app6">
+      <span>{{ firstName }}</span>
+      <span>{{ lastName }}</span>
+      <span>{{ fullName }}</span>
+    </div>
+
+    <div id="app7">
+      <div v-if="ok">
+        <h1>Sorry</h1>
+      </div>
+      <div v-else>Not sorry</div>
     </div>
     <!-- built files will be auto injected -->
     <script>
@@ -94,6 +111,46 @@
               test: 'disabled',
               number: 12,
               t1 : 200
+          }
+      })
+
+      var app5 = new Vue({
+          el: '#app5',
+          data: {
+              message: 'asdf'
+          },
+          filters: {
+              capitalize: function(value) {
+                  if (!value) return ''
+                  value = value.toString()
+                  return value.charAt(0).toUpperCase() + value.slice(1)
+              }
+          }
+      })
+
+      var app6 = new Vue({
+          el: '#app6',
+          data: {
+              firstName: 'Hello',
+              lastName: 'World'
+          },
+          computed: {
+              fullName: {
+                  get: function() {
+                      return this.firstName + ' ' + this.lastName
+                  },
+                  set: function(newValue) {
+                      var names = newValue.split(' ')
+                      this.firstName = names[0]
+                      this.lastName = names[names.length - 1]
+                  }
+              }
+          }
+      })
+      var app7 = new Vue({
+          el: '#app7',
+          data: {
+              ok: true
           }
       })
     </script>
