@@ -39,8 +39,8 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.optimize.OccurrenceOrderPlugin(),
     // extract css into its own file
     new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css')),
-    // generate dist index.html with correct asset hash for caching.
-    // you can customize output by editing /index.html
+    // generate dist index_back.html with correct asset hash for caching.
+    // you can customize output by editing /index_back.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: process.env.NODE_ENV === 'testing'
