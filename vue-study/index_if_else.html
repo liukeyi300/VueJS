@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <title>vue-study</title>
+    <script src="static/vue.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app1">
+      <div v-if="loginType === 'username'">
+        <span>UserName</span>
+        <input type="text" placeholder="Input UserName">
+      </div>
+      <div v-else>
+        <span>Email</span>
+        <input type="text" placeholder="Input Email">
+      </div>
+      <button @click="click">Reverse</button>
+    </div>
+    <!-- built files will be auto injected -->
+    <script>
+      new Vue({
+          el: '#app1',
+          data: {
+              loginType: 'username'
+          },
+          methods: {
+              click: function() {
+                  if (this.loginType === 'username') {
+                      this.loginType = 'email'
+                  } else {
+                      this.loginType = 'username'
+                  }
+              }
+          }
+      })
+    </script>
+  </body>
+</html>

@@ -8,31 +8,81 @@
 
   <body>
     <div id="app1">
-      <div v-if="loginType === 'username'">
-        <span>UserName</span>
-        <input type="text" placeholder="Input UserName">
-      </div>
-      <div v-else>
-        <span>Email</span>
-        <input type="text" placeholder="Input Email">
-      </div>
-      <button @click="click">Reverse</button>
+      <input v-model="message" placeholder="edit me">
+      <p>Message is {{message}}</p>
+    </div>
+
+    <div id="app2">
+      <span>Multi Message is: </span>
+      <p style="white-space: pre">{{message}}</p>
+      <br>
+      <textarea v-model="message" placeholder="add multiple lines"></textarea>
+    </div>
+
+    <div id="app3">
+      <input type="checkbox" id="checkbox" v-model="checked">
+      <span for="checkbox">{{checked}}</span>
+    </div>
+
+    <div id="app4">
+      <input type="checkbox" v-model="checkNames" value="mike" id="mike">
+      <p for="mike">Mike</p>
+      <input type="checkbox" v-model="checkNames" value="john" id="john">
+      <p for="john">John</p>
+      <input type="checkbox" v-model="checkNames" value="haha" id="haha">
+      <p for="haha">Haha</p>
+      <br>
+      <span>Checked Name: {{checkNames}}</span>
+    </div>
+
+    <div id="app5">
+      <input type="checkbox" v-model="toggle" :true-value="a" :false-value="b">
+
+      <input type="radio" v-model="pick" :value="c">
+
+      <select v-model="selected">
+        <option :value="{ number: 123}">123</option>
+      </select>
     </div>
     <!-- built files will be auto injected -->
     <script>
-      new Vue({
+      var app1 = new Vue({
           el: '#app1',
           data: {
-              loginType: 'username'
-          },
-          methods: {
-              click: function() {
-                  if (this.loginType === 'username') {
-                      this.loginType = 'email'
-                  } else {
-                      this.loginType = 'username'
-                  }
-              }
+              message: 'abc'
+          }
+      })
+
+      var app2 = new Vue({
+          el: '#app2',
+          data: {
+              message: ''
+          }
+      })
+
+      var app3 = new Vue({
+          el: '#app3',
+          data: {
+              checked: true
+          }
+      })
+
+      var app4 = new Vue({
+          el: '#app4',
+          data: {
+              checkNames: []
+          }
+      })
+
+      var app5 = new Vue({
+          el: '#app5',
+          data: {
+              toggle: true,
+              a: true,
+              b: false,
+              c: true,
+              selected: 123,
+              pick: true
           }
       })
     </script>

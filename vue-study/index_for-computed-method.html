@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <title>vue-study</title>
+    <script src="static/vue.min.js"></script>
+  </head>
+
+  <body>
+  <ul id="app1">
+    <li v-for="item in even(num)">{{item}}</li>
+  </ul>
+    <!-- built files will be auto injected -->
+    <script>
+      new Vue({
+          el: '#app1',
+          data: {
+              num: [1,2,3,4,5,67,213,8,12,23,23]
+          },
+          computed: {
+          },
+          methods: {
+            even: function(num) {
+              return num.filter(function(num) {
+                return num % 2 === 0
+              })
+            }
+          }
+      })
+    </script>
+  </body>
+</html>
