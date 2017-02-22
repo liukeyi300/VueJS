@@ -6,84 +6,62 @@
     <script src="static/vue.min.js"></script>
   </head>
 
+  <div id="app1">
+    <cus-com1></cus-com1>
+    <cus-com2></cus-com2>
+  </div>
+
   <body>
-    <div id="app1">
-      <input v-model="message" placeholder="edit me">
-      <p>Message is {{message}}</p>
-    </div>
-
-    <div id="app2">
-      <span>Multi Message is: </span>
-      <p style="white-space: pre">{{message}}</p>
-      <br>
-      <textarea v-model="message" placeholder="add multiple lines"></textarea>
-    </div>
-
-    <div id="app3">
-      <input type="checkbox" id="checkbox" v-model="checked">
-      <span for="checkbox">{{checked}}</span>
-    </div>
-
-    <div id="app4">
-      <input type="checkbox" v-model="checkNames" value="mike" id="mike">
-      <p for="mike">Mike</p>
-      <input type="checkbox" v-model="checkNames" value="john" id="john">
-      <p for="john">John</p>
-      <input type="checkbox" v-model="checkNames" value="haha" id="haha">
-      <p for="haha">Haha</p>
-      <br>
-      <span>Checked Name: {{checkNames}}</span>
-    </div>
-
-    <div id="app5">
-      <input type="checkbox" v-model="toggle" :true-value="a" :false-value="b">
-
-      <input type="radio" v-model="pick" :value="c">
-
-      <select v-model="selected">
-        <option :value="{ number: 123}">123</option>
-      </select>
-    </div>
     <!-- built files will be auto injected -->
     <script>
-      var app1 = new Vue({
-          el: '#app1',
-          data: {
-              message: 'abc'
+      var bus = new Vue()
+      Vue.component('cus-com1', {
+          template: '\
+            <button @click="click" >haha</button>\
+          ',
+          data: function () {
+              return {
+                  counter: 0
+              }
+          },
+          methods: {
+              click: function() {
+                  bus.$emit('com1-click')
+              }
+          },
+          created: function() {
+              bus.$on('com2-click', () => {
+                  this.counter += 1
+              })
           }
       })
 
-      var app2 = new Vue({
-          el: '#app2',
-          data: {
-              message: ''
+      Vue.component('cus-com2', {
+        template: '\
+            <span>com1-counter:{{counter}}</span>\
+            <button @click="click">\
+            Hahaha\
+            </button>\
+          ',
+        data: function () {
+          return {
+            counter: 0
           }
+        },
+        methods: {
+          click: function() {
+              bus.$emit('com2-click')
+          }
+        },
+        created: function() {
+            bus.$on('com1-click', () => {
+                this.counter += 1
+            })
+        }
       })
 
-      var app3 = new Vue({
-          el: '#app3',
-          data: {
-              checked: true
-          }
-      })
-
-      var app4 = new Vue({
-          el: '#app4',
-          data: {
-              checkNames: []
-          }
-      })
-
-      var app5 = new Vue({
-          el: '#app5',
-          data: {
-              toggle: true,
-              a: true,
-              b: false,
-              c: true,
-              selected: 123,
-              pick: true
-          }
+      new Vue({
+          el: '#app1'
       })
     </script>
   </body>

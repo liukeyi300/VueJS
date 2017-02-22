@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <title>vue-study</title>
+    <script src="static/vue.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app1">
+      <my-component></my-component>
+    </div>
+
+    <div id="app2">
+      <my-counter></my-counter>
+      <my-counter></my-counter>
+      <my-counter></my-counter>
+    </div>
+
+    <div id="app3">
+      <input v-model="parentMsg" placeholder="Input msg">
+      <br>
+      <child :my-message="parentMsg"></child>
+    </div>
+
+    <div id="app4">
+      <p>{{total}}</p>
+      <button-counter @increment2="incrementTotal"></button-counter>
+      <button-counter @increment2="incrementTotal"></button-counter>
+      <button-counter @increment2="incrementTotal"></button-counter>
+    </div>
+
+    <div id="app5">
+      <custom-input v-model="price"></custom-input>
+      <p>{{price}}</p>
+    </div>
+    <!-- built files will be auto injected -->
+    <script>
+      Vue.component('my-component', {
+          template:'<div>A custom component</div>'
+      })
+
+      new Vue({
+          el: '#app1'
+      })
+
+      var data = {
+          counter: 0
+      }
+
+      Vue.component('my-counter', {
+          template: '<button @click="counter += 1">{{counter}}</button>',
+          data: function() {
+              return {
+                  counter: 0
+              }
+          }
+      })
+
+      new Vue({
+          el: '#app2'
+      })
+
+      Vue.component('child', {
+          props: ['myMessage'],
+          template: '<span>{{myMessage}}</span>'
+      })
+
+      new Vue({
+          el: '#app3',
+          data: {
+              parentMsg: ''
+          }
+      })
+
+      Vue.component('button-counter', {
+          data: function() {
+              return {
+                  counter: 0
+              }
+          },
+          template: '<button @click="increment">{{ counter }}</button>',
+          methods: {
+              increment: function() {
+                  this.counter += 1
+                  this.$emit('increment2')
+              }
+          }
+      })
+
+      new Vue({
+          el: '#app4',
+          data: {
+              total: 0
+          },
+          methods: {
+              incrementTotal: function() {
+                  this.total += 1
+              }
+          }
+      })
+
+      Vue.component('custom-input', {
+          template: '\
+            <input \
+              ref="input"\
+              :value="value"\
+              @input="updateValue($event.target.value)"\
+            >',
+          props: ['value'],
+          methods: {
+              updateValue: function(value) {
+                  console.log(value)
+                  this.$emit('input', Number(value))
+              }
+          }
+      })
+
+      new Vue({
+          el: '#app5',
+          data: {
+              price: 0
+          }
+      })
+    </script>
+  </body>
+</html>
