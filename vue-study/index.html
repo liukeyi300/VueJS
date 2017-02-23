@@ -6,62 +6,83 @@
     <script src="static/vue.min.js"></script>
   </head>
 
-  <div id="app1">
-    <cus-com1></cus-com1>
-    <cus-com2></cus-com2>
-  </div>
-
   <body>
+    <div id="app1">
+      <child-com>
+        <p>{{slot}}</p>
+        <P>{{slot2}}</P>
+      </child-com>
+    </div>
+
+    <div class="parent" id="app2">
+      <child>
+        <template scope="props">
+          <span>Hello from parent</span>
+          <span>{{ props.text }}</span>
+        </template>
+      </child>
+    </div>
+
+    <div id="app3">
+      <my-list :items="items">
+        <template scope="props" slot="item">
+          <li class="my-fancy-item">{{ props.text }}</li>
+        </template>
+      </my-list>
+    </div>
     <!-- built files will be auto injected -->
     <script>
-      var bus = new Vue()
-      Vue.component('cus-com1', {
+      Vue.component('child-com', {
           template: '\
-            <button @click="click" >haha</button>\
+            <div>\
+              <h2>Child Component Header</h2>\
+              <slot>\
+              Null Description\
+              </slot>\
+            </div>\
           ',
-          data: function () {
-              return {
-                  counter: 0
-              }
-          },
-          methods: {
-              click: function() {
-                  bus.$emit('com1-click')
-              }
-          },
-          created: function() {
-              bus.$on('com2-click', () => {
-                  this.counter += 1
-              })
-          }
-      })
-
-      Vue.component('cus-com2', {
-        template: '\
-            <span>com1-counter:{{counter}}</span>\
-            <button @click="click">\
-            Hahaha\
-            </button>\
-          ',
-        data: function () {
-          return {
-            counter: 0
-          }
-        },
-        methods: {
-          click: function() {
-              bus.$emit('com2-click')
-          }
-        },
-        created: function() {
-            bus.$on('com1-click', () => {
-                this.counter += 1
-            })
-        }
       })
 
       new Vue({
-          el: '#app1'
+          el: '#app1',
+          data: {
+              slot: 'Haha',
+              slot2: 'Yoyo'
+          }
+      })
+
+      Vue.component('child', {
+          template: '\
+            <div class="child">\
+              <slot text="hello from child"></slot>\
+            </div>\
+          '
+      })
+
+      new Vue({
+          el: '#app2'
+      })
+
+      Vue.component('my-list', {
+          template: '\
+            <ul>\
+              <slot name="item" \
+                    v-for="item in items"\
+                    :text="item.text">\
+              </slot>\
+            </ul>\
+          ',
+          props: ['items']
+      })
+
+      new Vue({
+          el: '#app3',
+          data: {
+              items: [
+                  { text: 'item1' },
+                  { text: 'item2' }
+              ]
+          }
       })
     </script>
   </body>

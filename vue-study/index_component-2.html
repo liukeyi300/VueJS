@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <title>vue-study</title>
+    <script src="static/vue.min.js"></script>
+  </head>
+
+  <div id="app1">
+    <cus-com1></cus-com1>
+    <cus-com2></cus-com2>
+  </div>
+
+  <body>
+    <!-- built files will be auto injected -->
+    <script>
+      var bus = new Vue()
+      Vue.component('cus-com1', {
+          template: '\
+            <div>\
+              <button @click="click" >AddCounter2</button>\
+              <span>com2-counter{{counter}}</span>\
+            </div>\
+          ',
+          data: function () {
+              return {
+                  counter: 0
+              }
+          },
+          methods: {
+              click: function() {
+                  bus.$emit('com1-click')
+              }
+          },
+          created: function() {
+              bus.$on('com2-click', () => {
+                  this.counter += 1
+              })
+          }
+      })
+
+      Vue.component('cus-com2', {
+        template: '\
+            <div>\
+              <button @click="click" >AddCounter1</button>\
+              <span>com1-counter{{counter}}</span>\
+            </div>\
+          ',
+        data: function () {
+          return {
+            counter: 0
+          }
+        },
+        methods: {
+          click: function() {
+              bus.$emit('com2-click')
+          }
+        },
+        created: function() {
+            bus.$on('com1-click', () => {
+                this.counter += 1
+            })
+        }
+      })
+
+      new Vue({
+          el: '#app1'
+      })
+    </script>
+  </body>
+</html>
