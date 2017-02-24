@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <title>vue-study</title>
+    <script src="static/vue.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app1">
+      <child-com>
+        <p>{{slot}}</p>
+        <P>{{slot2}}</P>
+      </child-com>
+    </div>
+
+    <div class="parent" id="app2">
+      <child>
+        <template scope="props">
+          <span>Hello from parent</span>
+          <span>{{ props.text }}</span>
+        </template>
+      </child>
+    </div>
+
+    <div id="app3">
+      <my-list :items="items">
+        <template scope="props" slot="item">
+          <li class="my-fancy-item">{{ props.text }}</li>
+        </template>
+      </my-list>
+    </div>
+    <!-- built files will be auto injected -->
+    <script>
+      Vue.component('child-com', {
+          template: '\
+            <div>\
+              <h2>Child Component Header</h2>\
+              <slot>\
+              Null Description\
+              </slot>\
+            </div>\
+          ',
+      })
+
+      new Vue({
+          el: '#app1',
+          data: {
+              slot: 'Haha',
+              slot2: 'Yoyo'
+          }
+      })
+
+      Vue.component('child', {
+          template: '\
+            <div class="child">\
+              <slot text="hello from child"></slot>\
+            </div>\
+          '
+      })
+
+      new Vue({
+          el: '#app2'
+      })
+
+      Vue.component('my-list', {
+          template: '\
+            <ul>\
+              <slot name="item" \
+                    v-for="item in items"\
+                    :text="item.text">\
+              </slot>\
+            </ul>\
+          ',
+          props: ['items']
+      })
+
+      new Vue({
+          el: '#app3',
+          data: {
+              items: [
+                  { text: 'item1' },
+                  { text: 'item2' }
+              ]
+          }
+      })
+    </script>
+  </body>
+</html>
