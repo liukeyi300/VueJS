@@ -4,7 +4,81 @@
     <meta charset="utf-8">
     <title>vue-study</title>
     <script src="static/vue.min.js"></script>
+    <link href="https://unpkg.com/animate.css@3.5.1/animate.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+    <style>
+      .fade-enter-active {
+        transition: opacity 5s;
+      }
 
+      .fade-leave-active {
+        transition: opacity .5s
+      }
+
+      .fade-enter, .fade-leave-active {
+        opacity: 0
+      }
+
+      .bounce-enter-active {
+        animation: bounce-in 5s;
+      }
+
+      .bounce-leave-active {
+        animation: bounce-out 5s;
+      }
+
+      @keyframes bounce-in {
+        0% {
+          -webkit-transform: scale(0);
+          -moz-transform: scale(0);
+          -ms-transform: scale(0);
+          -o-transform: scale(0);
+          transform: scale(0);
+        }
+
+        50% {
+          -webkit-transform: scale(1.5);
+          -moz-transform: scale(1.5);
+          -ms-transform: scale(1.5);
+          -o-transform: scale(1.5);
+          transform: scale(1.5);
+        }
+
+        100% {
+          -webkit-transform: scale(1);
+          -moz-transform: scale(1);
+          -ms-transform: scale(1);
+          -o-transform: scale(1);
+          transform: scale(1);
+        }
+      }
+
+      @keyframes bounce-out {
+        0% {
+          -webkit-transform: scale(1);
+          -moz-transform: scale(1);
+          -ms-transform: scale(1);
+          -o-transform: scale(1);
+          transform: scale(1);
+        }
+
+        50% {
+          -webkit-transform: scale(1.5);
+          -moz-transform: scale(1.5);
+          -ms-transform: scale(1.5);
+          -o-transform: scale(1.5);
+          transform: scale(1.5);
+        }
+
+        100% {
+          -webkit-transform: scale(0);
+          -moz-transform: scale(0);
+          -ms-transform: scale(0);
+          -o-transform: scale(0);
+          transform: scale(0);
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -13,17 +87,39 @@
         Toggle
       </button>
       <transition name="fade">
-        <p v-if="show">Hellow</p>
+        <p v-if="show">Hello</p>
       </transition>
-      <style>
-        .fade-enter-active, .fade-leave-active {
-          transition: opacity .5s;
-        }
 
-        .fade-enter, .fade-leave-active {
-          opacity: 0;
-        }
-      </style>
+    </div>
+
+    <div id="app2">
+      <button @click="show = !show">
+        Toggle
+      </button>
+      <transition name="bounce">
+        <p v-if="show">Look at me</p>
+      </transition>
+    </div>
+
+    <div id="app3">
+      <button @click="show = !show">Toggle</button>
+      <transition
+        name="custom-classes"
+        enter-active-class="animated tada"
+        leave-active-class="animated bounceOutRight">
+        <p v-if="show">Look at me</p>
+      </transition>
+    </div>
+
+    <div id="app4">
+      <button @click="show = !show">Toggle</button>
+      <transition
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @leave="leave"
+        :css="false">
+        <p v-if="show">Look at me</p>
+      </transition>
     </div>
     <!-- built files will be auto injected -->
     <script>
@@ -31,6 +127,47 @@
           el: '#app1',
           data: {
               show: true
+          }
+      })
+
+      var app2 = new Vue({
+          el: '#app2',
+          data: {
+              show: true
+          }
+      })
+
+      var app3 = new Vue({
+          el: '#app3',
+          data: {
+              show: true
+          }
+      })
+
+      var app4 = new Vue({
+          el: '#app4',
+          data: {
+              show: false
+          },
+          methods: {
+              beforeEnter: function(el) {
+                  el.style.opacity = 0
+                  el.style.transformOrigin  = 'left'
+              },
+              enter: function(el, done) {
+                  Velocity(el, { opacity: 1, fontSize: '1.4em'}, { duration: 300 })
+                  Velocity(el, { fontSize: '1em' }, { complete: done })
+              },
+              leave: function(el, done) {
+                  Velocity(el, { translateX: '15px', rotateZ: '50deg' }, { duration: 600 })
+                  Velocity(el, { rotateZ: '100deg' }, { loop: 2})
+                  Velocity(el, {
+                      rotateZ: '45deg',
+                      translateY: '30px',
+                      translateX: '30px',
+                      opacity: 0
+                  }, { complete: done})
+              }
           }
       })
     </script>
